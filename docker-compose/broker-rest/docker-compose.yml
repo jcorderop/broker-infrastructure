@@ -33,7 +33,7 @@ services:
       # enforce UTC timezone
       TZ: UTC
     volumes:
-      - rest-data-local:/var/lib/postgresql/test/data
+      - rest-data-local:/var/lib/postgresql/rest/data
     ports:
       - 5432:5432
     networks:
@@ -68,7 +68,7 @@ services:
         max_attempts: 3
         window: 120s
     environment:
-      SPRING_PROFILES_ACTIVE: rest
+      SPRING_PROFILES_ACTIVE: default
       SPRING_CONFIG_IMPORT: configserver:http://configmanager:9080/
 
   dataaccess:
@@ -76,16 +76,16 @@ services:
     ports:
       - "9081:9081"
     environment:
-      SPRING_PROFILES_ACTIVE: rest
-      SPRING_CONFIG_IMPORT: configserver:http://configmanager:9080/
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_CONFIG_IMPORT: optional:configserver:http://configmanager:9080/
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresdev:5432/data_access
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://loadbalancer:9082/eureka/
     networks:
       - rest-network
     depends_on:
       - configserver
       - loadbalancer
       - postgresdev
-    links:
-      - postgresdev:database
     deploy:
       restart_policy:
         condition: on-failure

@@ -2,18 +2,20 @@ spring:
   application:
     name: "configmanager"
   profiles:
-    active: "native"
-    #active: "git"
+    #active: "native"
+    active: "git"
   cloud:
     config:
       server:
         native:
-          search-locations: "file:///${workspace}//broker-infrastructure//configuration"
+          #search-locations: "file:///${workspace}//broker-infrastructure//configuration"
           #search-locations: "classpath:/config"
-        #git:
-          #uri: "https://github.com/jcorderop/broker-infrastructure/configuration/broker-config.git"
-          #clone-on-start: true
-          #default-label: "main"
+        git:
+          uri: "https://github.com/jcorderop/broker-configuration.git"
+          clone-on-start: true
+          default-label: "main"
+    compatibility-verifier:
+      enabled: false
   endpoints:
     web:
       exposure:
