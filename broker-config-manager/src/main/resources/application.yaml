@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: "configmanager"
+  profiles:
+    active: "native"
+    #active: "git"
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: "file:///${workspace}//broker-infrastructure//configuration"
+          #search-locations: "classpath:/config"
+        #git:
+          #uri: "https://github.com/jcorderop/broker-infrastructure/configuration/broker-config.git"
+          #clone-on-start: true
+          #default-label: "main"
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+server:
+  port: 9080
+
+encrypt:
+  key: "broker+configuration+manager"
+

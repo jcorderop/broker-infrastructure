@@ -1,0 +1,58 @@
+spring:
+  datasource:
+    url: "jdbc:postgresql://database:5432/data_access"
+  config:
+    import: "optional:configserver:http://localhost:9080"
+    loadbalancer:
+      ribbon:
+        enabled: false
+    allow-override: true
+  cloud:
+    compatibility-verifier:
+      enabled: false
+
+server:
+  port: 9081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    org:
+      springframework: INFO
+
+## Configuring info endpoint
+info:
+  app:
+    name: "Access Data Manager Service"
+    description: "Broker - Access Data Manager APIs"
+    version: "v1"
+
+app:
+  name: "${info.app.name}"
+  api:
+    title: "${info.app.name}"
+    version: "${info.app.version}"
+    description: "${info.app.description}"
+    base-package: "org.broker.dataaccess.controller"
+    contact-name: "support"
+    contact-email: "support@broker.com"
+    swagger:
+      enable: true
+
+eureka:
+  port: 9082
+  instance:
+    preferIpAddress: true
+    hostname: "localhost"
+  client:
+    enabled: true
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: "http://${eureka.instance.hostname}:${eureka.port}/eureka/"
+

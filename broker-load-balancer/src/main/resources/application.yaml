@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: "loadbalancer"
+  config:
+    import: "optional:configserver:http://localhost:9080"
+    loadbalancer:
+      ribbon:
+        enabled: false
+    allow-override: true
+
+server:
+  port: 9082
+
